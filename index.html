@@ -22,13 +22,22 @@
 
     <div id="playerContainer"></div>
 
-    <button onclick="addPlayer()">
-        選手追加
-    </button>
+    <div>
+    <label>実行試合数 :</label>
+
+    <input
+        type="number"
+        id="simulationCount"
+        value="50"
+        min="1"
+    >
+</div>
 
     <button onclick="runSimulation()">
         シミュレーション開始
     </button>
+
+    <div>
 
     <div id="output"></div>
 

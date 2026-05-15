@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>打順シミュレーター</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+   
+<body>
+
+    <h1>野球 打順シミュレーター</h1>
+
+    <p>
+        打順の平均得点期待値を計算します。
+    </p>
+
+    <div id="playerContainer"></div>
+
+    <button onclick="addPlayer()">
+        選手追加
+    </button>
+
+    <div class="simulation-box">
+
+        <label>実行試合数 :</label>
+
+        <input
+            type="number"
+            id="simulationCount"
+            value="1000"
+            min="1"
+        >
+
+    </div>
+
+    <button onclick="runSimulation()">
+        シミュレーション開始
+    </button>
+
+    <div id="output"></div>
+
+    <canvas id="resultChart"></canvas>
+
+    <script src="script.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</body>
+
+</html>

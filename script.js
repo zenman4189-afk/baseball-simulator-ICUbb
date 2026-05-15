@@ -10,20 +10,19 @@ function addPlayer(){
 
     <input placeholder="名前" class="name">
 
-    <input type="number" step="0.01" placeholder="単打" class="single">
+    <input type="number" step="0.01" placeholder="単打数" class="single">
 
-    <input type="number" step="0.01" placeholder="二塁打" class="double">
+    <input type="number" step="0.01" placeholder="二塁打数" class="double">
 
-    <input type="number" step="0.01" placeholder="三塁打" class="triple">
+    <input type="number" step="0.01" placeholder="三塁打数" class="triple">
 
-    <input type="number" step="0.01" placeholder="本塁打" class="hr">
+    <input type="number" step="0.01" placeholder="本塁打数" class="hr">
 
-    <input type="number" step="0.01" placeholder="四球" class="walk">
+    <input type="number" step="0.01" placeholder="四死球数" class="walk">
 
-    <input type="number" step="0.01" placeholder="三振" class="strikeout">
+    <input type="number" step="0.01" placeholder="三振数" class="strikeout">
 
-    <input type="number" step="0.01" placeholder="アウト" class="out">
-
+    <input type="number" placeholder="打席数" class="pa">
     `;
 
     container.appendChild(div);
@@ -42,23 +41,47 @@ function getPlayers(){
 
     forms.forEach(form => {
 
+        const single = parseInt(form.querySelector(".single").value) || 0;
+
+        const double = parseInt(form.querySelector(".double").value) || 0;
+
+        const triple = parseInt(form.querySelector(".triple").value) || 0;
+
+        const hr = parseInt(form.querySelector(".hr").value) || 0;
+
+        const walk = parseInt(form.querySelector(".walk").value) || 0;
+
+        const strikeout = parseInt(form.querySelector(".strikeout").value) || 0;
+
+        const pa = parseInt(form.querySelector(".pa").value) || 1;
+
+        const hitTotal =
+            single +
+            double +
+            triple +
+            hr +
+            walk +
+            strikeout;
+
+        const out = pa - hitTotal;
+
         players.push({
 
             name: form.querySelector(".name").value,
 
-            single: parseFloat(form.querySelector(".single").value) || 0,
+            single: single / pa,
 
-            double: parseFloat(form.querySelector(".double").value) || 0,
+            double: double / pa,
 
-            triple: parseFloat(form.querySelector(".triple").value) || 0,
+            triple: triple / pa,
 
-            hr: parseFloat(form.querySelector(".hr").value) || 0,
+            hr: hr / pa,
 
-            walk: parseFloat(form.querySelector(".walk").value) || 0,
+            walk: walk / pa,
 
-            strikeout: parseFloat(form.querySelector(".strikeout").value) || 0,
+            strikeout: strikeout / pa,
 
-            out: parseFloat(form.querySelector(".out").value) || 0
+            out: out / pa
 
         });
 
@@ -244,6 +267,11 @@ function permutations(arr){
 
 async function runSimulation(){
 
+    const simulations =
+    parseInt(
+        document.getElementById("simulationCount").value
+    ) || 50;
+
     const output = document.getElementById("output");
 
     output.textContent = "計算中...\n";
@@ -259,38 +287,28 @@ async function runSimulation(){
 
     const perms = permutations(players);
 
-    let bestScore = 0;
-
-    let bestLineup = null;
+    let rankings=[]
 
     let count = 0;
 
     for(let lineup of perms){
 
-        let score = expectedRuns(lineup, 100);
+        let score = expectedRuns(lineup, simulations);
 
         count++;
 
-        if(score > bestScore){
+        rankings.push({
 
-            bestScore = score;
+            lineup: [...lineup],
 
-            bestLineup = lineup;
+            score: score
+        });
 
-            output.textContent +=
-            "====================\n" +
-            "更新！\n" +
-            "得点期待値 : " +
-            bestScore.toFixed(3) +
-            "\n";
+        rankings.sort((a,b)=>b.score-a.score);
 
-            output.textContent +=
-            bestLineup.map(p => p.name).join(" → ");
+        rankings = rankings.slice(0,10);
 
-            output.textContent += "\n\n";
-        }
-
-        if(count % 1000 === 0){
+        if(count % 50000 === 0){
 
             output.textContent +=
             count + " 通り完了\n";
