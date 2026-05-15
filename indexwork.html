@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>野球 打順シミュレーター</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <h1>野球 打順シミュレーター</h1>
+
+    <div id="playerContainer"></div>
+
+    <div>
+    <label>実行試合数 :</label>
+
+    <input
+        type="number"
+        id="simulationCount"
+        value="50"
+        min="1"
+    >
+</div>
+
+    <button onclick="runSimulation()">
+        シミュレーション開始
+    </button>
+
+    <div>
+
+    <div id="output"></div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
